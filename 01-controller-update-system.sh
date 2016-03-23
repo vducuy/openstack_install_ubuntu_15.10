@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #Install NTP service
-apt-get install chrony
+apt-get -y install chrony
 sed -i '20,23d' /etc/chrony/chrony.conf
 sed -i '20 a server controller iburst' /etc/chrony/chrony.conf
 service chrony restart
