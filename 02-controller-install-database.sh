@@ -1,7 +1,9 @@
 #!/bin/sh
+#Install the OpenStack client
+apt-get install python-openstackclient -y
 
 #Install mySQL
-apt-get install -y mysql-server python-mysqldb
+apt-get install -y mariadb-server python-mysqldb
 
 #Install crudini./
 apt-get install crudini -y
@@ -11,7 +13,9 @@ crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld bind-address 10.38.7
 crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld default-storage-engine innodb
 crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld collation-server utf8_general_ci
 crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld init-connect "'SET NAMES utf8'"
+crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld character-set-server utf8
 sed -i '6 a innodb_file_per_table' /etc/mysql/conf.d/mysqld_openstack.cnf
+
 #Restart the database service
 service mysql restart
 # Automate Secure the database service by running the mysql_secure_installation script.
