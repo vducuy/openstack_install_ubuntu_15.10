@@ -1,14 +1,14 @@
 #!/bin/bash
 #Install Message Queue Install and configure components
 apt-get install rabbitmq-server -y
-rabbitmqctl add_user openstack RABBIT_PASS
+rabbitmqctl add_user openstack amcc1234
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 #Install the identity
 #Prerequisites
 mysql -u root --password=amcc1234 <<MYSQL_SCRIPT
 CREATE DATABASE keystone;
-GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS';
-GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS';
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'amcc1234';
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'amcc1234';
 MYSQL_SCRIPT
 #Generate a random value to use as the administration token during initial configuration
 export ADMIN_TOKEN=$(openssl rand -hex 10)
@@ -20,7 +20,7 @@ apt-get install keystone apache2 libapache2-mod-wsgi \
 #Edit the /etc/keystone/keystone.conf file and complete the following actions
 crudini --set /etc/keystone/keystone.conf DEFAULT admin_token $ADMIN_TOKEN
 crudini --set /etc/keystone/keystone.conf DEFAULT verbose True
-crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:KEYSTONE_DBPASS@controller/keystone
+crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:amcc1234@controller/keystone
 crudini --set /etc/keystone/keystone.conf memcache servers localhost:11211
 crudini --set /etc/keystone/keystone.conf token provider uuid
 crudini --set /etc/keystone/keystone.conf token driver memcache
@@ -53,7 +53,7 @@ openstack endpoint create --region RegionOne \
 openstack project create --domain default \
   --description "Admin Project" admin
 openstack user create --domain default \
-  --password ADMIN_PASS admin
+  --password amcc1234 admin
 openstack role create admin
 openstack role add --project admin --user admin admin
 openstack project create --domain default \
@@ -61,7 +61,7 @@ openstack project create --domain default \
 openstack project create --domain default \
   --description "Demo Project" demo
 openstack user create --domain default \
-  --password DEMO_PASS demo
+  --password amcc1234 demo
 openstack role create user
 openstack role add --project demo --user demo user
 #Verify Operation
@@ -74,11 +74,11 @@ sed -i 's/sizelimit url_normalize request_id build_auth_context token_auth admin
 #Actually test
 openstack --os-auth-url http://controller:35357/v3 \
   --os-project-domain-id default --os-user-domain-id default \
-  --os-project-name admin --os-username admin --os-password ADMIN_PASS\
+  --os-project-name admin --os-username admin --os-password amcc1234\
   token issue
 openstack --os-auth-url http://controller:5000/v3 \
   --os-project-domain-id default --os-user-domain-id default \
-  --os-project-name demo --os-username demo --os-password DEMO_PASS \
+  --os-project-name demo --os-username demo --os-password amcc1234 \
   token issue
 
 source admin-openrc.sh
