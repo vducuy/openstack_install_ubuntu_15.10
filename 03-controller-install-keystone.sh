@@ -5,7 +5,7 @@ rabbitmqctl add_user openstack RABBIT_PASS
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 #Install the identity
 #Prerequisites
-mysql -u root --password=stack <<MYSQL_SCRIPT
+mysql -u root --password=amcc1234 <<MYSQL_SCRIPT
 CREATE DATABASE keystone;
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS';
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS';
