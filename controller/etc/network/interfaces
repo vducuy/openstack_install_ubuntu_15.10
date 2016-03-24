@@ -1,0 +1,33 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The manage network interface
+#auto eth0
+#iface eth0 inet static
+#address 192.168.0.11
+#netmask 255.255.255.0
+#gateway 192.168.0.1
+#dns-nameservers 10.38.18.11
+
+auto eth0
+iface eth0 inet static
+address 10.38.70.11
+netmask 255.255.252.0
+network 10.38.0.0
+gateway 10.38.70.1
+dns-nameservers 10.38.18.11
+
+# The public network interface
+auto eth1
+iface eth1 inet manual
+up ip link set dev ${IFACE} up
+down ip link set dev ${IFACE} down
+
+
+

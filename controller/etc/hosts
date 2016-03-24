@@ -1,0 +1,13 @@
+127.0.0.1	localhost controller
+10.38.70.11	controller
+
+10.38.70.21	computer1	
+192.168.0.31	block1
+192.168.0.41	obj1	
+192.168.0.51	obj2
+	
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
