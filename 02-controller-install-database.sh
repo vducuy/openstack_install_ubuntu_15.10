@@ -8,13 +8,13 @@ apt-get install -y mariadb-server python-mysqldb
 #Install crudini./
 apt-get install crudini -y
 #Create and edit the /etc/mysql/conf.d/mysqld_openstack.cnf file
-touch /etc/mysql/conf.d/mysqld_openstack.cnf
-crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld bind-address 10.38.70.11
-crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld default-storage-engine innodb
-crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld collation-server utf8_general_ci
-crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld init-connect "'SET NAMES utf8'"
-crudini --set /etc/mysql/conf.d/mysqld_openstack.cnf mysqld character-set-server utf8
-sed -i '6 a innodb_file_per_table' /etc/mysql/conf.d/mysqld_openstack.cnf
+touch /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf
+crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld bind-address 10.38.70.11
+crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld default-storage-engine innodb
+crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld collation-server utf8_general_ci
+crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld init-connect "'SET NAMES utf8'"
+crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld character-set-server utf8
+sed -i '6 a innodb_file_per_table' /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf
 
 #Restart the database service
 service mysql restart
