@@ -1,8 +1,4 @@
 #!/bin/bash
-#Install Message Queue Install and configure components
-apt-get install rabbitmq-server -y
-rabbitmqctl add_user openstack amcc1234
-rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 #Install the identity
 #Prerequisites
 mysql -u root --password=amcc1234 <<MYSQL_SCRIPT

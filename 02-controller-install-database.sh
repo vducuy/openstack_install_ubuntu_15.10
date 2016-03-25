@@ -1,6 +1,4 @@
 #!/bin/sh
-#Install the OpenStack client
-apt-get install python-openstackclient -y
 
 #Install mySQL
 apt-get install -y mariadb-server python-mysqldb
@@ -47,5 +45,10 @@ sed -i '$ a smallfiles = true' /etc/mongodb.conf
 service mongodb stop
 rm /var/lib/mongodb/journal/prealloc.*
 service mongodb start
+
+#Install Message Queue Install and configure components
+apt-get install rabbitmq-server -y
+rabbitmqctl add_user openstack amcc1234
+rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 
 
