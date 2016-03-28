@@ -1,12 +1,12 @@
 #!/bin/sh
 #OpenStack Image service
 #Prerequisites
-mysql -u root --password=stack <<MYSQL_SCRIPT
+mysql -u root --password=amcc1234 <<MYSQL_SCRIPT
 CREATE DATABASE glance;
 GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'amcc1234';
 GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY 'amcc1234';
 MYSQL_SCRIPT
-source admin-openrc.sh
+source ./admin-openrc.sh
 #Create the service credentials, complete these steps
 openstack user create --domain default --password amcc1234 glance
 openstack role add --project service --user glance admin
