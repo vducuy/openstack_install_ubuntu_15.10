@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #OpenStack Image service
 #Prerequisites
 mysql -u root --password=amcc1234 <<MYSQL_SCRIPT
