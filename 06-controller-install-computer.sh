@@ -60,4 +60,8 @@ service nova-conductor restart
 service nova-novncproxy restart
 rm -f /var/lib/nova/nova.sqlite
 
+#Verify nova install
+source admin-openrc.sh
+nova service-list
+nova image-list
 
