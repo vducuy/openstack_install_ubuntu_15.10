@@ -7,7 +7,7 @@ apt-get install -y mariadb-server python-mysqldb
 apt-get install crudini -y
 #Create and edit the /etc/mysql/conf.d/mysqld_openstack.cnf file
 touch /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf
-crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld bind-address 10.38.70.11
+crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld bind-address 192.168.0.11
 crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld default-storage-engine innodb
 crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld collation-server utf8_general_ci
 crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld init-connect "'SET NAMES utf8'"
@@ -39,7 +39,7 @@ echo "$SECURE_MYSQL"
 apt-get -y purge expect
 #Install NoSQL database Install and configure components
 apt-get install mongodb-server mongodb-clients python-pymongo -y
-sed -i 's/bind_ip = 127.0.0.1/bind_ip = 10.38.70.11/g' /etc/mongodb.conf
+sed -i 's/bind_ip = 127.0.0.1/bind_ip = 192.168.0.11/g' /etc/mongodb.conf
 sed -i '$ a smallfiles = true' /etc/mongodb.conf
 #Finalize installation
 service mongodb stop
