@@ -9,7 +9,7 @@ KERNEL_IMAGE_NAME=$2
 KERNEL_IMAGE_FILE=$1
 
 glance image-create \
---disk-format aki 
+--disk-format aki \
 --container-format bare \
 --name "${KERNEL_IMAGE_NAME}" \
 --property hw_machine_type=virt \
