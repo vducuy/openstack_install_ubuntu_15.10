@@ -11,7 +11,7 @@ glance \
 image-create \
 --disk-format qcow2 \
 --container-format bare \
---name "${IMAGE_NAME} \
+--name "${IMAGE_NAME}" \
 --property hw_machine_type=virt \
 --property os_command_line='root=/dev/vda  console=ttyAMA0' \
 --property hw_cdrom_bus=virtio \
