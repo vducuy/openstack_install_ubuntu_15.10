@@ -6,3 +6,4 @@ export OS_USERNAME=demo
 export OS_PASSWORD=amcc1234
 export OS_AUTH_URL=http://controller:5000/v3
 export OS_IMAGE_API_VERSION=2
+export OS_IMAGE_API_VERSION=2
