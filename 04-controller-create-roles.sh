@@ -1,4 +1,7 @@
 #!/bin/bash
+
+source default-config.inc
+
 #Install the identity
 source ./endpoint_token.sh
 

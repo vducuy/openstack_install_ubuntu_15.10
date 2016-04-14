@@ -1,4 +1,5 @@
 #!/bin/bash
+source default-config.inc
 #Install the identity
 #Prerequisites
 mysql -u root --password=amcc1234 <<MYSQL_SCRIPT
@@ -16,7 +17,7 @@ apt-get install keystone apache2 libapache2-mod-wsgi \
 #Edit the /etc/keystone/keystone.conf file and complete the following actions
 crudini --set /etc/keystone/keystone.conf DEFAULT admin_token $ADMIN_TOKEN
 crudini --set /etc/keystone/keystone.conf DEFAULT verbose True
-crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:amcc1234@controller/keystone
+crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:${ADMIN_PASSWORD}@controller/keystone
 crudini --set /etc/keystone/keystone.conf memcache servers localhost:11211
 crudini --set /etc/keystone/keystone.conf token provider uuid
 crudini --set /etc/keystone/keystone.conf token driver memcache

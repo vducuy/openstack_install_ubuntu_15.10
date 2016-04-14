@@ -1,5 +1,5 @@
 #!/bin/bash
-
+source default-config.inc
 #Dashboard install
 apt-get install openstack-dashboard -y
 #Edit the /etc/openstack-dashboard/local_settings.py file and complete the following actions:

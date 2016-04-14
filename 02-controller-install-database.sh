@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+source default-config.inc
 
 #Install mySQL
 apt-get install -y mariadb-server python-mysqldb
@@ -7,7 +9,7 @@ apt-get install -y mariadb-server python-mysqldb
 apt-get install crudini -y
 #Create and edit the /etc/mysql/conf.d/mysqld_openstack.cnf file
 touch /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf
-crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld bind-address 192.168.0.11
+crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld bind-address ${NETWORK_NODE_ADDR}
 crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld default-storage-engine innodb
 crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld collation-server utf8_general_ci
 crudini --set /etc/mysql/mariadb.conf.d/mysqld_openstack.cnf mysqld init-connect "'SET NAMES utf8'"
@@ -39,7 +41,7 @@ echo "$SECURE_MYSQL"
 apt-get -y purge expect
 #Install NoSQL database Install and configure components
 apt-get install mongodb-server mongodb-clients python-pymongo -y
-sed -i 's/bind_ip = 127.0.0.1/bind_ip = 192.168.0.11/g' /etc/mongodb.conf
+sed -i 's/bind_ip = 127.0.0.1/bind_ip = ${NETWORK_NODE_ADDR}/g' /etc/mongodb.conf
 sed -i '$ a smallfiles = true' /etc/mongodb.conf
 #Finalize installation
 service mongodb stop
@@ -48,7 +50,7 @@ service mongodb start
 
 #Install Message Queue Install and configure components
 apt-get install rabbitmq-server -y
-rabbitmqctl add_user openstack amcc1234
+rabbitmqctl add_user openstack ${ADMIN_PASSWORD}
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 
 

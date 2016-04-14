@@ -1,6 +1,5 @@
-w
 #!/bin/bash
-
+source default-config.inc
 #Add the Networking service
 #Prerequisites
 mysql -u root --password=amcc1234 <<MYSQL_SCRIPT
@@ -10,7 +9,7 @@ GRANT ALL PRIVILEGES ON neutron.* TO neutron@'%' IDENTIFIED BY 'amcc1234';
 MYSQL_SCRIPT
 source admin-openrc.sh
 #To create the service credentials, complete these steps:
-openstack user create --domain default --password amcc1234 neutron
+openstack user create --domain default --password ${ADMIN_PASSWORD} neutron
 openstack role add --project service --user neutron admin
 openstack service create --name neutron \
 	  --description "OpenStack Networking" network
@@ -26,14 +25,14 @@ apt-get install neutron-server neutron-plugin-ml2 \
 	  neutron-plugin-linuxbridge-agent neutron-l3-agent neutron-dhcp-agent \
 	    neutron-metadata-agent python-neutronclient -y
 #Configure the api and nova for neutron
-crudini --set /etc/neutron/neutron.conf database connection mysql+pymysql://neutron:amcc1234@controller/neutron
+crudini --set /etc/neutron/neutron.conf database connection mysql+pymysql://neutron:${ADMIN_PASSWORD}@controller/neutron
 crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin ml2
 crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
 crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips True
 crudini --set /etc/neutron/neutron.conf DEFAULT rpc_backend rabbit
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_host controller
 crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_userid openstack
-crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_password amcc1234
+crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_password ${ADMIN_PASSWORD}
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 crudini --del /etc/neutron/neutron.conf keystone_authtoken
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_uri http://controller:5000
@@ -43,7 +42,7 @@ crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_id def
 crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_id default
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
 crudini --set /etc/neutron/neutron.conf keystone_authtoken username neutron
-crudini --set /etc/neutron/neutron.conf keystone_authtoken password amcc1234
+crudini --set /etc/neutron/neutron.conf keystone_authtoken password ${ADMIN_PASSWORD}
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_status_changes True
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_data_changes True
 crudini --set /etc/neutron/neutron.conf DEFAULT nova_url http://controller:8774/v2
@@ -54,7 +53,7 @@ crudini --set /etc/neutron/neutron.conf nova user_domain_id default
 crudini --set /etc/neutron/neutron.conf nova region_name RegionOne
 crudini --set /etc/neutron/neutron.conf nova project_name service
 crudini --set /etc/neutron/neutron.conf nova username nova
-crudini --set /etc/neutron/neutron.conf nova password amcc1234
+crudini --set /etc/neutron/neutron.conf nova password ${ADMIN_PASSWORD}
 crudini --set /etc/neutron/neutron.conf DEFAULT verbose True
 #Ml2 plugin config, layer 3 and dhcp
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers flat,vlan,vxlan
@@ -68,7 +67,7 @@ crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini securitygroup enable_ipset T
 #Configure the Linux bridge agent
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini linux_bridge physical_interface_mappings public:eth1
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan enable_vxlan True
-crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip 192.168.0.11
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip ${CONTROLLER_NODE_ADDR}
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan l2_population True
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini agent prevent_arp_spoofing True
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini securitygroup enable_security_group True
@@ -95,9 +94,9 @@ crudini --set /etc/neutron/metadata_agent.ini DEFAULT project_domain_id default
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT user_domain_id default
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT project_name service
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT username neutron
-crudini --set /etc/neutron/metadata_agent.ini DEFAULT password amcc1234
+crudini --set /etc/neutron/metadata_agent.ini DEFAULT password ${ADMIN_PASSWORD}
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_ip controller
-crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secret amcc1234
+crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secret ${ADMIN_PASSWORD}
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT verbose True
 #Configure compute to use the network
 crudini --set /etc/nova/nova.conf neutron url http://controller:9696
@@ -108,9 +107,9 @@ crudini --set /etc/nova/nova.conf neutron user_domain_id default
 crudini --set /etc/nova/nova.conf neutron region_name RegionOne
 crudini --set /etc/nova/nova.conf neutron project_name service
 crudini --set /etc/nova/nova.conf neutron username neutron
-crudini --set /etc/nova/nova.conf neutron password amcc1234
+crudini --set /etc/nova/nova.conf neutron password ${ADMIN_PASSWORD}
 crudini --set /etc/nova/nova.conf neutron service_metadata_proxy True
-crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret amcc1234
+crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret ${ADMIN_PASSWORD}
 
 #Finalize installation
 #Populate neutron
