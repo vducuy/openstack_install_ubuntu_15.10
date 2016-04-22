@@ -23,7 +23,7 @@ crudini --set /etc/neutron/neutron.conf DEFAULT verbose True
 echo "#Config linux bridege"
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini linux_bridge physical_interface_mappings public:eth1
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan enable_vxlan True
-crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip 192.168.0.21
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip ${COMPUTE_NODE_ADDR}
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan l2_population True
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini agent prevent_arp_spoofing True
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini securitygroup enable_security_group True
