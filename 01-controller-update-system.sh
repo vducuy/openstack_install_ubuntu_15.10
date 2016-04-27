@@ -8,7 +8,7 @@ service chrony restart
 #Enable OpenStack Repository
 apt-get update && apt-get dist-upgrade -y
 apt-get install software-properties-common
-yes '' | add-apt-repository cloud-archive:liberty
+yes '' | add-apt-repository cloud-archive:mitaka
 apt-get update && apt-get dist-upgrade -y
 apt-get install python-openstackclient -y
 reboot
