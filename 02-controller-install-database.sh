@@ -41,7 +41,7 @@ echo "$SECURE_MYSQL"
 apt-get -y purge expect
 #Install NoSQL database Install and configure components
 apt-get install mongodb-server mongodb-clients python-pymongo -y
-sed -i 's/bind_ip = 127.0.0.1/bind_ip = ${CONTROLLER_NODE_ADDR}/g' /etc/mongodb.conf
+sed -i 's/bind_ip = 127.0.0.1/bind_ip = 192.168.0.11/g' /etc/mongodb.conf
 sed -i '$ a smallfiles = true' /etc/mongodb.conf
 #Finalize installation
 service mongodb stop
@@ -53,4 +53,5 @@ apt-get install rabbitmq-server -y
 rabbitmqctl add_user openstack ${ADMIN_PASSWORD}
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 
-
+apt-get install memcached python-memcache
+sed -i 's/\-l 127.0.0.1/\-l 192.168.0.11/g' /etc/memcached.conf
