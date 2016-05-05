@@ -64,10 +64,10 @@ rm -f /var/lib/glance/glance.sqlite
 
 source admin-openrc.sh
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
-openstack image create --name "cirros" \
+openstack image create "cirros" \
 	--file cirros-0.3.4-x86_64-disk.img \
 	--disk-format qcow2 --container-format bare \
-	--public --progress
+	--public
 
 openstack image list
 

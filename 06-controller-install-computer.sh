@@ -3,6 +3,7 @@ source default-config.inc
 #Add the compute service
 #Prerequisites
 mysql -u root --password=amcc1234 <<MYSQL_SCRIPT
+CREATE DATABASE nova_api;
 CREATE DATABASE nova;
 GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' \
   IDENTIFIED BY 'amcc1234';
