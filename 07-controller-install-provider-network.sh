@@ -24,7 +24,7 @@ openstack endpoint create --region RegionOne \
 #Networking Option 1: Provider networks
 #Instal and config neutron on controller
 apt-get install neutron-server neutron-plugin-ml2 \
-  neutron-linuxbridge-agent neutron-dhcp-agent \
+  neutron-plugin-linuxbridge-agent neutron-dhcp-agent \
   neutron-metadata-agent -y
 #Configure the api and nova for neutron
 crudini --set /etc/neutron/neutron.conf database connection mysql+pymysql://neutron:${ADMIN_PASSWORD}@controller/neutron
@@ -41,7 +41,7 @@ crudini --del /etc/neutron/neutron.conf keystone_authtoken
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_uri http://controller:5000
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_url http://controller:35357
 crudini --set /etc/neutron/neutron.conf keystone_authtoken memcached_servers controller:11211
-crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_type password
+crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_plugin password
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_name default
 crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_name default
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
@@ -52,7 +52,7 @@ crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_status_chang
 crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_data_changes True
 
 crudini --set /etc/neutron/neutron.conf nova auth_url http://controller:35357
-crudini --set /etc/neutron/neutron.conf nova auth_type password
+crudini --set /etc/neutron/neutron.conf nova auth_plugin password
 crudini --set /etc/neutron/neutron.conf nova project_domain_name default
 crudini --set /etc/neutron/neutron.conf nova user_domain_name default
 crudini --set /etc/neutron/neutron.conf nova region_name RegionOne
@@ -90,7 +90,7 @@ crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secr
 #Configure compute to use the network
 crudini --set /etc/nova/nova.conf neutron url http://controller:9696
 crudini --set /etc/nova/nova.conf neutron auth_url http://controller:35357
-crudini --set /etc/nova/nova.conf neutron auth_type password
+crudini --set /etc/nova/nova.conf neutron auth_plugin password
 crudini --set /etc/nova/nova.conf neutron project_domain_name default
 crudini --set /etc/nova/nova.conf neutron user_domain_name default
 crudini --set /etc/nova/nova.conf neutron region_name RegionOne

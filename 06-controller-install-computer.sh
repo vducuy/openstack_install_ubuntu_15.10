@@ -44,7 +44,7 @@ crudini --del /etc/nova/nova.conf keystone_authtoken
 crudini --set /etc/nova/nova.conf keystone_authtoken auth_uri http://controller:5000
 crudini --set /etc/nova/nova.conf keystone_authtoken auth_url http://controller:35357
 crudini --set /etc/nova/nova.conf keystone_authtoken memcached_servers controller:11211
-crudini --set /etc/nova/nova.conf keystone_authtoken auth_type password
+crudini --set /etc/nova/nova.conf keystone_authtoken auth_plugin password
 crudini --set /etc/nova/nova.conf keystone_authtoken project_domain_name default
 crudini --set /etc/nova/nova.conf keystone_authtoken user_domain_name default
 crudini --set /etc/nova/nova.conf keystone_authtoken project_name service

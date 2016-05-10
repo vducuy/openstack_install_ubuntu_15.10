@@ -1,3 +1,6 @@
+#!/bin/bash
+./clear-log.sh
+
 source admin-openrc.sh
 service mysql restart
 service apache2 start
